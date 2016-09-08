@@ -59,6 +59,9 @@ en:
   rooms:
     add_shift:
       irreversible:           "Are you sure? The following action can not be undone"
+  shifts:
+    edit:
+      irreversible:           "Are you sure? The following action can not be undone"
   application:
     name:                   "Shift Reservation"
     about:                  "about"

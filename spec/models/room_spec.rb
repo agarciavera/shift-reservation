@@ -2,24 +2,34 @@ require 'rails_helper'
 
 RSpec.describe Room, type: :model do
   context "basic tests" do
+    i18n_scope = 'activerecord.errors.models.room.attributes'
     let(:room) { FactoryGirl.build(:room) }
-    it "has a valid constructor" do
+
+    it "has a valid factory" do
       expect(room).to be_valid
     end
 
-    it "is not valid without a name" do
+    it "is invalid without a name" do
       room.name = ""
       expect(room).not_to be_valid
-      expect(room.errors[:name]).to include "can't be blank"
+      expect(room.errors[:name]).to include (I18n.t('name.blank', scope: i18n_scope))
+    end
+
+    it "rejects duplicate names" do
+      room2 = FactoryGirl.build(:room)
+      room2.name = room.name.upcase.dup
+      room2.save
+      room.valid?
+      expect(room.errors[:name]).to include(I18n.t('name.duplicated', scope: i18n_scope))
     end
 
     it "has a positive capacity" do
       room.capacity = 0
       expect(room).not_to be_valid
-      expect(room.errors[:capacity]).to include "must be greater than 0"
+      expect(room.errors[:capacity]).to include (I18n.t('capacity.zero', scope: i18n_scope))
       room.capacity = -1
       expect(room).not_to be_valid
-      expect(room.errors[:capacity]).to include "must be greater than 0"
+      expect(room.errors[:capacity]).to include (I18n.t('capacity.negative', scope: i18n_scope))
     end
   end
 

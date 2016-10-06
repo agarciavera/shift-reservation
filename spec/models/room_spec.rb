@@ -12,7 +12,7 @@ RSpec.describe Room, type: :model do
     it "is invalid without a name" do
       room.name = ""
       expect(room).not_to be_valid
-      expect(room.errors[:name]).to include (I18n.t('name.blank', scope: i18n_scope))
+      expect(room.errors[:name]).to include(I18n.t('name.blank', scope: i18n_scope))
     end
 
     it "rejects duplicate names" do
@@ -26,10 +26,10 @@ RSpec.describe Room, type: :model do
     it "has a positive capacity" do
       room.capacity = 0
       expect(room).not_to be_valid
-      expect(room.errors[:capacity]).to include (I18n.t('capacity.zero', scope: i18n_scope))
+      expect(room.errors[:capacity]).to include(I18n.t('capacity.zero', scope: i18n_scope))
       room.capacity = -1
       expect(room).not_to be_valid
-      expect(room.errors[:capacity]).to include (I18n.t('capacity.negative', scope: i18n_scope))
+      expect(room.errors[:capacity]).to include(I18n.t('capacity.negative', scope: i18n_scope))
     end
   end
 
